@@ -111,5 +111,13 @@ namespace ParkApi.Controllers
 
       return NoContent();
     }
+
+    // [HttpGet]
+    // public IActionResult GetParks([FromQuery] ParkParameters parkParameters)
+    // {
+    //   var parks = _db.Parks.GetParks(parkParameters);
+    //   _logger.LogInfo($"Returned {parks.Count()} owners from database.");
+    //   return Ok(parks);
+    // }
   }
 }
