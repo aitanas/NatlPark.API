@@ -1,6 +1,11 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 using ParkApi.Models;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace ParkApi.Controllers
 {
@@ -17,25 +22,37 @@ namespace ParkApi.Controllers
 
     // GET api/parks
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Park>>> Get(string state, string climate, string dogFriendly)
+    public async Task<ActionResult<IEnumerable<Park>>> Get([FromQuery] Parameters parameters)
     {
       IQueryable<Park> query = _db.Parks.AsQueryable();
 
-      if (state != null)
+      var parks = PagedList<Park>.ToPagedList(query.OrderBy(entry => entry.Name), parameters.PageNumber, parameters.PageSize);
+      var metadata = new
       {
-        query = query.Where(e => e.State == state);
-      }
+        parks.TotalCount,
+        parks.PageSize,
+        parks.CurrentPage,
+        parks.TotalPages,
+        parks.HasNext,
+        parks.HasPrevious
+      };
+      Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+      return new ActionResult<IEnumerable<Park>>(parks);
+      // if (state != null)
+      // {
+      //   query = query.Where(e => e.State == state);
+      // }
 
-      if (climate != null)
-      {
-        query = query.Where(e => e.Climate == climate);
-      }
+      // if (climate != null)
+      // {
+      //   query = query.Where(e => e.Climate == climate);
+      // }
 
-      if (dogFriendly != null)
-      {
-        query = query.Where(e => e.DogFriendly == dogFriendly);
-      }
-      return await _db.Parks.ToListAsync();
+      // if (dogFriendly != null)
+      // {
+      //   query = query.Where(e => e.DogFriendly == dogFriendly);
+      // }
+      // return await _db.Parks.ToListAsync();
     }
 
     // GET: api/Parks/1
