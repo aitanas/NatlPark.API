@@ -54,6 +54,7 @@ $ dotnet restore
 
 7. Enjoy!
 
+
 ## Endpoints
 
 ```
@@ -67,7 +68,7 @@ DELETE http://localhost:5000/api/parks/{id}
 |Parameter | Type | Required (Y/N) | Description |
 |----------|------|----------------|-------------|
 |name      |string| N              |Returns parks with a matching name value|
-|state     |string| N              |Returns parks located in the specified state. States are input using the two letter abbreviation (ex. OR, WA)|
+|state     |string| N              |Returns parks located in the specified state. States are currently searchable using their two letter abbreviation (ex. OR, WA)|
 |climate   |string| N              |Returns parks based on their climate/biome. See list of biomes below.|
 |dogFriendly|string|N              |Returns parks based on whether they are dog friendly (Y) or not (N).|
 
@@ -77,13 +78,25 @@ The `climate` parameter is standardized based on terrestrial biome terminology.
 
 ![A diagram of terrestrial biomes, used as a guide for the API climate parameter.](https://pbs.twimg.com/media/FNA1yWyWYAYOjIz?format=jpg&name=900x900 "Terrestrial Biomes")
 
-A valid list of parameters is as follows:
+A list of valid parameters is as follows:
 
 |  |Hot        |Moderate     |Cold                  |
 |----------------|-----------|-------------|----------------------|
 |**Dry**         |Desert     |Desert      |Tundra                |
 |**Temperate**   |Plains  |Deciduous Forest |Coniferous Forest |
 |**Wet**    |Tropical Rainforest |Temperate Rainforest | |
+
+### Pagination
+
+This API utilizes **pagination**.
+
+
+## Further Goals
+
+* Make states searchable by both abbreviation and state name
+* Add additional parameters relating to parks
+* Add more national and state park seed data
+
 
 ## Known Bugs
 
