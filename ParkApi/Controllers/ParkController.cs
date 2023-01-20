@@ -17,8 +17,24 @@ namespace ParkApi.Controllers
 
     // GET api/parks
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Park>>> Get()
+    public async Task<ActionResult<IEnumerable<Park>>> Get(string state, string climate, string dogFriendly)
     {
+      IQueryable<Park> query = _db.Parks.AsQueryable();
+
+      if (state != null)
+      {
+        query = query.Where(e => e.State == state);
+      }
+
+      if (climate != null)
+      {
+        query = query.Where(e => e.Climate == climate);
+      }
+
+      if (dogFriendly != null)
+      {
+        query = query.Where(e => e.DogFriendly == dogFriendly);
+      }
       return await _db.Parks.ToListAsync();
     }
 
