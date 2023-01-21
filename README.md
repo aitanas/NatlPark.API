@@ -88,8 +88,16 @@ A list of valid parameters is as follows:
 
 ### Pagination
 
-This API utilizes **pagination**.
+This API utilizes **pagination**, with code adapted from [this tutorial] (https://code-maze.com/paging-aspnet-core-webapi/). Pagination, or paging, splits up entries to avoid queries that return the entire database. 
 
+The number of entries per page is currently set to 2. If desired, the number of entries may be modified via the `Models/Common/Parameters.cs` file:
+
+```
+    const int maxPageSize = 2; // max amount of elements per page
+    public int PageNumber { get; set; } = 1; // how many pages you will have ( Number of elements / maxPageSize )
+    private int _pageSize = 2; // works in relation with public PageSize, if not specified default 3 elements will populate
+    public int PageSize // this property value represents how many elements you want to show in a Get
+```
 
 ## Further Goals
 
