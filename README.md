@@ -120,7 +120,7 @@ A list of valid parameters is as follows:
 
 ### Pagination
 
-This API utilizes **pagination**, with code adapted from [this tutorial] (https://code-maze.com/paging-aspnet-core-webapi/). Pagination, or paging, splits up entries to avoid queries that return the entire database. 
+This API utilizes **pagination**, with code adapted from [this tutorial](https://code-maze.com/paging-aspnet-core-webapi/). Pagination, or paging, splits up entries to avoid queries that return the entire database. 
 
 The number of entries per page is currently set to 2. If desired, the number of entries may be modified via the `Models/Common/Parameters.cs` file:
 
