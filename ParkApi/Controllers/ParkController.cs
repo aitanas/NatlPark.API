@@ -26,6 +26,20 @@ namespace ParkApi.Controllers
     {
       IQueryable<Park> query = _db.Parks.AsQueryable();
 
+      if (parameters.State != null)
+      {
+        query = query.Where(e => e.State.ToLower() == parameters.State.ToLower());
+      }
+      if (parameters.Climate != null)
+      {
+        query = query.Where(e => e.Climate.ToLower() == parameters.Climate.ToLower());
+      }
+
+      if (parameters.DogFriendly != null)
+      {
+        query = query.Where(e => e.DogFriendly.ToLower() == parameters.DogFriendly.ToLower());
+      }
+
       var parks = PagedList<Park>.ToPagedList(query.OrderBy(entry => entry.Name), parameters.PageNumber, parameters.PageSize);
       var metadata = new
       {
@@ -38,21 +52,6 @@ namespace ParkApi.Controllers
       };
       Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
       return new ActionResult<IEnumerable<Park>>(parks);
-      // if (state != null)
-      // {
-      //   query = query.Where(e => e.State == state);
-      // }
-
-      // if (climate != null)
-      // {
-      //   query = query.Where(e => e.Climate == climate);
-      // }
-
-      // if (dogFriendly != null)
-      // {
-      //   query = query.Where(e => e.DogFriendly == dogFriendly);
-      // }
-      // return await _db.Parks.ToListAsync();
     }
 
     // GET: api/Parks/1
