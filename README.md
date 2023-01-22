@@ -2,7 +2,7 @@
 
 #### By Aitana Shough
 
-An API created for US national and state park information.
+An API created for US national and state park information. The API includes parameters for park location, climate, whether the park is dog friendly, and a photo of the park via image URL.
 
 ## Technologies Used
 
@@ -55,7 +55,9 @@ $ dotnet restore
 7. Enjoy!
 
 
-## Endpoints
+## Endpoint Guide
+
+The main CRUD endpoints are as follows: 
 
 ```
 GET http://localhost:5000/api/parks/
@@ -65,12 +67,42 @@ PUT http://localhost:5000/api/parks/{id}
 DELETE http://localhost:5000/api/parks/{id}
 ```
 
+### Requirements for POST Requests
+
+When making a POST request to `http://localhost:5000/api/parks/`, a **body** is required. Below is an example body in JSON:
+```
+{
+  "name" = "Olympic National Park",
+  "state" = "WA"
+  "climate" = "Temperate Rainforest",
+  "dogFriendly" = "No", 
+  "image" = "https://olympicpeninsula.org/wp-content/uploads/2018/07/Hall-of-Mosses-Trail-Hoh-Rain-Forest-2.jpg" 
+}
+```
+
+### Requirements for PUT Requests
+
+When making a PUT request to `http://localhost:5000/api/parks/`, a **body AND `parkId` property** is required. Below is an example body in JSON:
+```
+{
+  "parkId" = 1,
+  "name" = "Olympic National Park",
+  "state" = "WA"
+  "climate" = "Temperate Rainforest",
+  "dogFriendly" = "No", 
+  "image" = "https://olympicpeninsula.org/wp-content/uploads/2018/07/Hall-of-Mosses-Trail-Hoh-Rain-Forest-2.jpg" 
+}
+```
+Note that the `parkId` parameter must match the PUT request. In this case, if we were to update the parkId 1 entry, we would need to specify the ID in the endpoint: `http://localhost:5000/api/parks/1`.
+
+## Optional String Query Parameters
+
 |Parameter | Type | Required (Y/N) | Description |
 |----------|------|----------------|-------------|
-|name      |string| N              |Returns parks with a matching name value|
-|state     |string| N              |Returns parks located in the specified state. States are currently searchable using their two letter abbreviation (ex. OR, WA)|
-|climate   |string| N              |Returns parks based on their climate/biome. See list of biomes below.|
-|dogFriendly|string|N              |Returns parks based on whether they are dog friendly (Y) or not (N).|
+|Name      |string| N              |Returns parks with a matching name value|
+|State     |string| N              |Returns parks located in the specified state. States are currently searchable using their two letter abbreviation (ex. OR, WA)|
+|Climate   |string| N              |Returns parks based on their climate/biome. See list of biomes below.|
+|DogFriendly|string|N              |Returns parks based on whether they are dog friendly (yes) or not (no).|
 
 ### Climate Terminology Guide
 
@@ -99,16 +131,32 @@ The number of entries per page is currently set to 2. If desired, the number of 
     public int PageSize // this property value represents how many elements you want to show in a Get
 ```
 
+Requests may also include `PageNumber` and `PageSize` to return a different number of entries, up to the maximum page size.
+
+### Example Queries
+
+The following query will return the first two parks that are dog friendly:
+
+```
+https://localhost:5001/api/Parks?PageNumber=1&PageSize=2&DogFriendly=yes
+```
+
+The following query will return parks that are located in Washington and have a temperate rainforest climate:
+
+```
+https://localhost:5001/api/Parks?State=wa&Climate=temperate+rainforest
+```
+
+
 ## Further Goals
 
 * Make states searchable by both abbreviation and state name
-* Add additional parameters relating to parks
 * Add more national and state park seed data
 
 
 ## Known Bugs
 
-* No known bugs.
+* No known bugs. If you find a bug, please reach out to `aeshough@gmail.com` with a brief description.
 
 
 ## License
